@@ -72,55 +72,49 @@ def test_calculate_angle_between_vectors():
     forty_five_degree_vector = [1.0, 1.0]
     horizontal_vector = [1.0, 0.0]
     expected_forty_five_degrees = math.pi / 4.0
-    assert (
-        abs(
-            calculate_angle_between_vectors(forty_five_degree_vector, horizontal_vector)
-            - expected_forty_five_degrees
-        )
-        < 0.0001
+    assert math.isclose(
+        calculate_angle_between_vectors(forty_five_degree_vector, horizontal_vector),
+        expected_forty_five_degrees,
+        abs_tol=0.0001,
     )
 
     # Test 60 degree angle
     sixty_degree_vector = [1.0, math.sqrt(3)]
     another_horizontal_vector = [2.0, 0.0]
     expected_sixty_degrees = math.pi / 3.0
-    assert (
-        abs(
-            calculate_angle_between_vectors(
-                sixty_degree_vector, another_horizontal_vector
-            )
-            - expected_sixty_degrees
-        )
-        < 0.0001
+    assert math.isclose(
+        calculate_angle_between_vectors(sixty_degree_vector, another_horizontal_vector),
+        expected_sixty_degrees,
+        abs_tol=0.0001,
     )
 
     # Test perpendicular vectors
     first_perpendicular_vector = [1.0, 0.0]
     second_perpendicular_vector = [0.0, 1.0]
     expected_right_angle = math.pi / 2.0
-    assert (
-        abs(
-            calculate_angle_between_vectors(
-                first_perpendicular_vector, second_perpendicular_vector
-            )
-            - expected_right_angle
-        )
-        < 0.0001
+    assert math.isclose(
+        calculate_angle_between_vectors(
+            first_perpendicular_vector, second_perpendicular_vector
+        ),
+        expected_right_angle,
+        abs_tol=0.0001,
     )
 
     # Test parallel vectors
     original_vector = [1.0, 2.0]
     scaled_vector = [2.0, 4.0]
-    assert abs(calculate_angle_between_vectors(original_vector, scaled_vector)) < 0.0001
+    assert math.isclose(
+        calculate_angle_between_vectors(original_vector, scaled_vector),
+        0.0,
+        abs_tol=0.0001,
+    )
 
     # Test opposite vectors
     forward_vector = [1.0, 0.0]
     backward_vector = [-1.0, 0.0]
     expected_straight_angle = math.pi
-    assert (
-        abs(
-            calculate_angle_between_vectors(forward_vector, backward_vector)
-            - expected_straight_angle
-        )
-        < 0.0001
+    assert math.isclose(
+        calculate_angle_between_vectors(forward_vector, backward_vector),
+        expected_straight_angle,
+        abs_tol=0.0001,
     )
