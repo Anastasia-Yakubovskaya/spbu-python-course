@@ -13,72 +13,76 @@ from math import sqrt, acos
 from typing import List, Optional
 
 
-def Scalar(v1: List[float], v2: List[float]) -> Optional[float]:
+def calculate_scalar_product(
+    vector1: List[float], vector2: List[float]
+) -> Optional[float]:
     """
     Calculate scalar product of two vectors
 
     Parameters:
-        v1 (List[float]): First vector
-        v2 (List[float]): Second vector
+        vector1 (List[float]): First vector
+        vector2 (List[float]): Second vector
 
     Returns:
-        Optional[float]: Scalar product of vectors v1 and v2
+        Optional[float]: Scalar product of vectors vector1 and vector2
     """
-    if len(v1) != len(v2):
+    if len(vector1) != len(vector2):
         return None
 
-    if not v1 or not v2:
+    if not vector1 or not vector2:
         return None
 
-    return sum(v1[i] * v2[i] for i in range(len(v1)))
+    return sum(vector1[i] * vector2[i] for i in range(len(vector1)))
 
 
-def Lenth(v: List[float]) -> float:
+def calculate_vector_length(vector: List[float]) -> float:
     """
     Calculate length of a vector
 
     Parameters:
-        v (List[float]): Input vector
+        vector (List[float]): Input vector
 
     Returns:
-        float: Length of vector v
+        float: Length of vector
     """
-    if not v:
+    if not vector:
         return 0.0
 
-    return sqrt(sum(x**2 for x in v))
+    return sqrt(sum(x**2 for x in vector))
 
 
-def Angle(v1: List[float], v2: List[float]) -> Optional[float]:
+def calculate_angle_between_vectors(
+    vector1: List[float], vector2: List[float]
+) -> Optional[float]:
     """
     Calculate angle between two vectors
 
     Parameters:
-        v1 (List[float]): First vector
-        v2 (List[float]): Second vector
+        vector1 (List[float]): First vector
+        vector2 (List[float]): Second vector
 
     Returns:
         Optional[float]: Angle between vectors in radians
     """
 
-    if len(v1) != len(v2):
+    if len(vector1) != len(vector2):
         return None
 
-    scalar_product = Scalar(v1, v2)
-    if scalar_product is None:
+    scalar_result = calculate_scalar_product(vector1, vector2)
+    if scalar_result is None:
         return None
 
-    length_v1 = Lenth(v1)
-    length_v2 = Lenth(v2)
+    length1 = calculate_vector_length(vector1)
+    length2 = calculate_vector_length(vector2)
 
-    if length_v1 == 0 or length_v2 == 0:
+    if length1 == 0 or length2 == 0:
         return None
 
-    denominator = length_v1 * length_v2
+    denominator = length1 * length2
     if denominator == 0:
         return None
 
-    cos_angle = scalar_product / denominator
+    cos_angle = scalar_result / denominator
     if cos_angle < -1 or cos_angle > 1:
         return None
 
