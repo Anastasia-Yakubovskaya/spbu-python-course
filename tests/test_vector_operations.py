@@ -46,7 +46,7 @@ def test_calculate_vector_length():
     """
     Test vector length calculation with various cases.
     """
-    # Test with 2D vector (3-4-5 triangle)
+    # Test with 2D vector
     two_dimensional_vector = [3.0, 4.0]
     expected_length = 5.0
     assert calculate_vector_length(two_dimensional_vector) == expected_length

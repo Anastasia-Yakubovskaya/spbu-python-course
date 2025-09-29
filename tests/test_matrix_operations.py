@@ -64,8 +64,8 @@ def test_calculate_matrix_product():
     assert calculate_matrix_product(matrix_c, matrix_d) == expected_rectangular_result
 
     # Test incompatible matrices
-    matrix_e = [[1.0, 2.0]]  # 1x2
-    matrix_f = [[1.0], [2.0], [3.0]]  # 3x1
+    matrix_e = [[1.0, 2.0]]
+    matrix_f = [[1.0], [2.0], [3.0]]
     assert calculate_matrix_product(matrix_e, matrix_f) is None
 
 

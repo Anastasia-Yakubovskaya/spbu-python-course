@@ -8,8 +8,8 @@ def calculate_matrix_sum(
     Add two matrices
 
     Parameters:
-        a (List[List[float]]): First matrix
-        b (List[List[float]]): Second matrix
+        matrix_a (List[List[float]]): First matrix
+        matrix_b (List[List[float]]): Second matrix
 
     Returns:
         Optional[List[List[float]]]: Sum of matrix a and matrix b
@@ -33,8 +33,8 @@ def calculate_matrix_product(
     Multiplicate two matrices
 
     Parameters:
-        a (List[List[float]]): First matrix
-        b (List[List[float]]): Second matrix
+        matrix_a (List[List[float]]): First matrix
+        matrix_b (List[List[float]]): Second matrix
 
     Returns:
         Optional[List[List[float]]]: Product of matrix a and matrix b
@@ -61,7 +61,7 @@ def calculate_matrix_transpose(
      Transpose a matrix
 
     Parameters:
-        a (List[List[float]]): Matrix
+        matrix (List[List[float]]): Matrix
 
     Returns:
         Optional[List[List[float]]]: Transposed matrix
