@@ -13,16 +13,16 @@ All operations are applied lazily, processing data on-demand without loading
 entire datasets into memory.
 """
 
-from typing import Callable, Generator, Any, Iterable
+from typing import Callable, Generator, Any, Iterable, Iterator, Union
 from functools import reduce
 
 
-def create_data_stream(data_source: Iterable) -> Generator[Any, None, None]:
+def create_data_stream(data_source: Iterable[Any]) -> Generator[Any, None, None]:
     """
     Create a lazy data stream from an iterable data source.
 
     Parameters:
-        data_source (Iterable): Source iterable data (list, tuple, range, generator, etc.)
+        data_source (Iterable[Any]): Source iterable data (list, tuple, range, generator, etc.)
 
     Returns:
         Generator[Any, None, None]: Generator yielding items from the source
@@ -31,8 +31,8 @@ def create_data_stream(data_source: Iterable) -> Generator[Any, None, None]:
 
 
 def create_operation_adapter(
-    func: Callable, *args, **kwargs
-) -> Callable[[Generator], Generator]:
+    func: Callable, *args: Any, **kwargs: Any
+) -> Callable[[Generator[Any, None, None]], Generator[Any, None, None]]:
     """
     Create an adapter for any function to work with the processing pipeline.
 
@@ -42,11 +42,13 @@ def create_operation_adapter(
         **kwargs: Keyword arguments for the function
 
     Returns:
-        Callable[[Generator], Generator]: Adapted function that takes a generator
-                                        and returns a generator
+        Callable[[Generator[Any, None, None]], Generator[Any, None, None]]:
+        Adapted function that takes a generator and returns a generator
     """
 
-    def apply_adapted_operation(input_generator: Generator) -> Generator:
+    def apply_adapted_operation(
+        input_generator: Generator[Any, None, None]
+    ) -> Generator[Any, None, None]:
         if func is map:
             yield from map(args[0], input_generator)
         elif func is filter:
@@ -71,17 +73,18 @@ def create_operation_adapter(
 
 
 def apply_processing_pipeline(
-    input_generator: Generator, *operations: Callable
-) -> Generator:
+    input_generator: Generator[Any, None, None],
+    *operations: Callable[[Generator[Any, None, None]], Generator[Any, None, None]]
+) -> Generator[Any, None, None]:
     """
     Apply a sequence of processing operations to a data stream in a lazy manner.
 
     Parameters:
-        input_generator (Generator): Source data generator
+        input_generator (Generator[Any, None, None]): Source data generator
         *operations (Callable): Sequence of operations to apply to the data stream
 
     Returns:
-        Generator: Resulting generator after applying all operations
+        Generator[Any, None, None]: Resulting generator after applying all operations
     """
     current_stream = input_generator
     for operation in operations:
@@ -91,8 +94,8 @@ def apply_processing_pipeline(
 
 
 def collect_processed_results(
-    processed_stream: Generator,
-    result_collector: Callable = list,
+    processed_stream: Union[Generator[Any, None, None], Iterator[Any]],
+    result_collector: Callable[..., Any] = list,
     *collection_args: Any,
     **collection_kwargs: Any
 ) -> Any:
@@ -100,8 +103,10 @@ def collect_processed_results(
     Collect the results of a processed data stream into a specified collection type.
 
     Parameters:
-        processed_stream (Generator): Processed data generator from pipeline
-        result_collector (Callable): Collection type or function (list, set, tuple, dict, etc.)
+        processed_stream (Union[Generator[Any, None, None], Iterator[Any]]):
+            Processed data generator from pipeline
+        result_collector (Callable[..., Any]):
+            Collection type or function (list, set, tuple, dict, etc.)
         *collection_args: Positional arguments for the collector
         **collection_kwargs: Keyword arguments for the collector
 
