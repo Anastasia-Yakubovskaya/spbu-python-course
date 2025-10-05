@@ -47,27 +47,22 @@ def create_operation_adapter(
     """
 
     def apply_adapted_operation(input_generator: Generator) -> Generator:
-        if func.__name__ == "map":
+        if func is map:
             yield from map(args[0], input_generator)
-        elif func.__name__ == "filter":
+        elif func is filter:
             yield from filter(args[0], input_generator)
-        elif func.__name__ == "zip":
+        elif func is zip:
             yield from zip(input_generator, *args)
-        elif func.__name__ == "enumerate":
-            yield from enumerate(input_generator, *args)
-        elif func.__name__ == "reduce":
-            list_data = list(input_generator)
-            if args:
-                reduction_func = args[0]
-                initial = args[1] if len(args) > 1 else None
-            else:
-                reduction_func = func
-                initial = kwargs.get("initializer", None)
+        elif func is enumerate:
+            yield from enumerate(input_generator, *args, **kwargs)
+        elif func is reduce:
+            reduction_func = args[0] if args else func
+            initial = args[1] if len(args) > 1 else kwargs.get("initializer", None)
 
             if initial is not None:
-                result = reduce(reduction_func, list_data, initial)
+                result = reduce(reduction_func, input_generator, initial)
             else:
-                result = reduce(reduction_func, list_data)
+                result = reduce(reduction_func, input_generator)
             yield result
         else:
             yield from func(input_generator, *args, **kwargs)
