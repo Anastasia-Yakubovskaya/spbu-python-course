@@ -1,0 +1,116 @@
+"""
+Lazy Stream Processing System
+
+This module implements a system for lazy stream processing using Python generators.
+The system includes:
+- Data stream generation from various sources
+- Pipeline for applying sequence of operations
+- Support for built-in functions (map, filter, zip, reduce, etc.)
+- Support for custom user-defined functions
+- Result aggregation into different collection types
+
+All operations are applied lazily, processing data on-demand without loading
+entire datasets into memory.
+"""
+
+from typing import Callable, Generator, Any, Iterable, Iterator, Union
+from functools import reduce
+
+
+def create_data_stream(data_source: Iterable[Any]) -> Generator[Any, None, None]:
+    """
+    Create a lazy data stream from an iterable data source.
+
+    Parameters:
+        data_source (Iterable[Any]): Source iterable data (list, tuple, range, generator, etc.)
+
+    Returns:
+        Generator[Any, None, None]: Generator yielding items from the source
+    """
+    yield from data_source
+
+
+def create_operation_adapter(
+    func: Callable, *args: Any, **kwargs: Any
+) -> Callable[[Generator[Any, None, None]], Generator[Any, None, None]]:
+    """
+    Create an adapter for any function to work with the processing pipeline.
+
+    Parameters:
+        func (Callable): Function to adapt (map, filter, zip, reduce, enumerate, or custom)
+        *args: Positional arguments for the function
+        **kwargs: Keyword arguments for the function
+
+    Returns:
+        Callable[[Generator[Any, None, None]], Generator[Any, None, None]]:
+        Adapted function that takes a generator and returns a generator
+    """
+
+    def apply_adapted_operation(
+        input_generator: Generator[Any, None, None]
+    ) -> Generator[Any, None, None]:
+        if func is map:
+            yield from map(args[0], input_generator)
+        elif func is filter:
+            yield from filter(args[0], input_generator)
+        elif func is zip:
+            yield from zip(input_generator, *args)
+        elif func is enumerate:
+            yield from enumerate(input_generator, *args, **kwargs)
+        elif func is reduce:
+            reduction_func = args[0] if args else func
+            initial = args[1] if len(args) > 1 else kwargs.get("initializer", None)
+
+            if initial is not None:
+                result = reduce(reduction_func, input_generator, initial)
+            else:
+                result = reduce(reduction_func, input_generator)
+            yield result
+        else:
+            yield from func(input_generator, *args, **kwargs)
+
+    return apply_adapted_operation
+
+
+def apply_processing_pipeline(
+    input_generator: Generator[Any, None, None],
+    *operations: Callable[[Generator[Any, None, None]], Generator[Any, None, None]]
+) -> Generator[Any, None, None]:
+    """
+    Apply a sequence of processing operations to a data stream in a lazy manner.
+
+    Parameters:
+        input_generator (Generator[Any, None, None]): Source data generator
+        *operations (Callable): Sequence of operations to apply to the data stream
+
+    Returns:
+        Generator[Any, None, None]: Resulting generator after applying all operations
+    """
+    current_stream = input_generator
+    for operation in operations:
+        current_stream = operation(current_stream)
+
+    return current_stream
+
+
+def collect_processed_results(
+    processed_stream: Union[Generator[Any, None, None], Iterator[Any]],
+    result_collector: Callable[..., Any] = list,
+    *collection_args: Any,
+    **collection_kwargs: Any
+) -> Any:
+    """
+    Collect the results of a processed data stream into a specified collection type.
+
+    Parameters:
+        processed_stream (Union[Generator[Any, None, None], Iterator[Any]]):
+            Processed data generator from pipeline
+        result_collector (Callable[..., Any]):
+            Collection type or function (list, set, tuple, dict, etc.)
+        *collection_args: Positional arguments for the collector
+        **collection_kwargs: Keyword arguments for the collector
+
+    Returns:
+        Any: Collected data in the specified format
+    """
+    return result_collector(processed_stream, *collection_args, **collection_kwargs)

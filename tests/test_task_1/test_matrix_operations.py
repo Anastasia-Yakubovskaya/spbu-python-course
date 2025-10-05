@@ -6,7 +6,9 @@ Contains unit tests for matrix functions: addition, multiplication, transpositio
 import sys
 import os
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "project"))
+current_dir = os.path.dirname(__file__)
+project_path = os.path.join(current_dir, "..", "..", "project", "task_1")
+sys.path.insert(0, os.path.abspath(project_path))
 
 from matrices import (
     calculate_matrix_sum,
