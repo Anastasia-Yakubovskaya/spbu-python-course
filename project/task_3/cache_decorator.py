@@ -19,7 +19,7 @@ def decorator_cache(size: int = 0) -> Callable:
         if size == 0:
             return func
 
-        cache = OrderedDict()
+        cache: OrderedDict = OrderedDict()
 
         def wrapper(*args: Any, **kwargs: Any) -> Any:
             key = (args, tuple(sorted(kwargs.items())))
