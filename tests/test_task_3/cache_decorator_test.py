@@ -10,7 +10,7 @@ current_dir = os.path.dirname(__file__)
 project_path = os.path.join(current_dir, "..", "..", "project", "task_3")
 sys.path.insert(0, os.path.abspath(project_path))
 
-from cach_decorator import decorator_cache
+from cache_decorator import decorator_cache
 
 
 def test_cache_basic_functionality():
