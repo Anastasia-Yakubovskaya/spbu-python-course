@@ -1,8 +1,9 @@
 from collections import OrderedDict
 from typing import Any, Callable
+import functools
 
 
-def decorator_cache(size: int = 0) -> Callable:
+def decorator_cache(size: int = 0):
     """
     Caching decorator that stores up to `size` most recent function call results.
     Disabled when `size` is 0 (default).
@@ -14,6 +15,12 @@ def decorator_cache(size: int = 0) -> Callable:
         Callable: Decorated function with LRU caching enabled.
 
     """
+    if callable(size):
+        func = size
+        return decorator_cache()(func)
+
+    if not isinstance(size, int) or size < 0:
+        raise ValueError("size must be a non-negative int")
 
     def decorator(func: Callable) -> Callable:
         if size == 0:
@@ -21,6 +28,7 @@ def decorator_cache(size: int = 0) -> Callable:
 
         cache: OrderedDict = OrderedDict()
 
+        @functools.wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
             key = (args, tuple(sorted(kwargs.items())))
 

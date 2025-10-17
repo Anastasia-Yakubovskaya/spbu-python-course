@@ -1,4 +1,4 @@
-from typing import Callable, Any, Union
+from typing import Callable, Any
 
 
 def curry_explicit(func: Callable, arity: int) -> Callable:
@@ -20,37 +20,29 @@ def curry_explicit(func: Callable, arity: int) -> Callable:
                   one by one until `arity` arguments are provided.
 
     Raises:
-        ValueError: If `arity` is negative or if more arguments than `arity`
-                    are passed during currying.
+        ValueError: If `arity` is negative.
     """
     if arity < 0:
         raise ValueError("Arity must be non-negative")
 
     if arity == 0:
 
-        def zero_arity(*args: Any) -> Any:
-            if len(args) > 0:
-                raise ValueError("Arity not eq with args")
+        def zero_arity() -> Any:
             return func()
 
         return zero_arity
 
-    def curried_function(*accumulated_args: Any) -> Union[Any, Callable]:
-        if len(accumulated_args) > arity:
-            raise ValueError("Arity not eq with args")
-
+    def curried_function(accumulated_args: tuple = ()) -> Callable:
         if len(accumulated_args) == arity:
             return func(*accumulated_args)
 
-        def next_curried(next_arg: Any) -> Union[Any, Callable]:
-            return curried_function(*accumulated_args, next_arg)
+        def next_curried(next_arg: Any) -> Any:
+            new_args = accumulated_args + (next_arg,)
+            return curried_function(new_args)
 
         return next_curried
 
-    def starter() -> Callable:
-        return curried_function()
-
-    return starter()
+    return curried_function()
 
 
 def uncurry_explicit(func: Callable, arity: int) -> Callable:

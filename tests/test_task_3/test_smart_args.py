@@ -194,3 +194,73 @@ def test_isolated_and_evaluated_together():
     assert result1_data != result2_data
 
     assert call_count == 2
+
+
+def test_positional_calls_with_isolated_marker():
+    """
+    Test that functions with Isolated markers can be called positionally when enabled.
+
+    Test cases:
+    - Function with Isolated marker can be called with positional arguments when enable_positional=True
+    - Original data is protected from modification even with positional calls
+    """
+
+    @smart_args(enable_positional=True)
+    def test_func(data=isolated()):
+        data["modified"] = True
+        return data
+
+    original = {"value": 1}
+    result = test_func(original)
+
+    assert result["modified"] is True
+    assert "modified" not in original
+    assert original == {"value": 1}
+
+
+def test_positional_calls_with_evaluated_marker():
+    """
+    Test that functions with Evaluated markers can be called positionally when enabled.
+
+    Test cases:
+    - Function with Evaluated marker can be called with positional arguments when enable_positional=True
+    - Evaluated function is called each time even with positional calls
+    """
+    counter = 0
+
+    def counter_func():
+        nonlocal counter
+        counter += 1
+        return counter
+
+    @smart_args(enable_positional=True)
+    def test_func(val=evaluated(counter_func)):
+        return val
+
+    result1 = test_func()
+    result2 = test_func()
+
+    assert result1 == 1
+    assert result2 == 2
+    assert counter == 2
+
+
+def test_positional_only_args_with_markers():
+    """
+    Test markers with positional-only arguments (Python 3.8+ syntax).
+    """
+    with pytest.raises(
+        AssertionError, match="Cannot use isolated for positional arguments"
+    ):
+
+        @smart_args()
+        def test_func1(pos_arg=isolated(), /):
+            pass
+
+    with pytest.raises(
+        AssertionError, match="Cannot use evaluated for positional arguments"
+    ):
+
+        @smart_args()
+        def test_func2(pos_arg=evaluated(lambda: 1), /):
+            pass
