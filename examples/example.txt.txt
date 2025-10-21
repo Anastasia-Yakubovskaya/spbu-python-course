@@ -1,0 +1,152 @@
+Welcome to Blackjack!
+Game will run for 5 rounds
+
+Round 1
+Placing bets:
+Player bet (chips: 1000): 500
+Bot 1 bets 100
+Bot 2 bets 100
+Dealer shows: J of Spades
+Player: ['Q of Diamonds', '3 of Spades'] (Score: 13)
+Action (hit/stand/double/surrender): hit
+Got: 4 of Clubs
+Player: ['Q of Diamonds', '3 of Spades', '4 of Clubs'] (Score: 17)
+Action (hit/stand): stand
+Dealer: ['J of Spades', 'K of Clubs']
+Dealer score: 20
+Player: 17
+Player: lose
+Bot 1: 18
+Bot 1: lose
+Bot 2: 13
+Bot 2: lose
+Player loses 500 chips (lower score)
+Bot 1 loses 100 chips (lower score)
+Bot 2 loses 100 chips (lower score)
+
+Chip counts:
+Player: 500
+Bot 1: 900
+Bot 2: 900
+
+Continue to next round? (y/n): y
+
+Round 2
+Placing bets:
+Player bet (chips: 500): 400
+Bot 1 bets 90
+Bot 2 bets 90
+Dealer shows: 5 of Clubs
+Player: ['A of Spades', '9 of Hearts'] (Score: 20)
+Action (hit/stand/surrender): stand
+Dealer: ['5 of Clubs', 'J of Hearts']
+Dealer hits: Q of Hearts
+Dealer score: 25
+Player: 20
+Player: win - dealer bust
+Bot 1: 17
+Bot 1: win - dealer bust
+Bot 2: 14
+Bot 2: win - dealer bust
+Player wins 400 chips (dealer bust)
+Bot 1 wins 90 chips (dealer bust)
+Bot 2 wins 90 chips (dealer bust)
+
+Chip counts:
+Player: 900
+Bot 1: 990
+Bot 2: 990
+
+Continue to next round? (y/n): y
+
+Round 3
+Placing bets:
+Player bet (chips: 900): 800
+Bot 1 bets 99
+Bot 2 bets 99
+Dealer shows: 3 of Hearts
+Player: ['10 of Diamonds', '5 of Hearts'] (Score: 15)
+Action (hit/stand/surrender): hit
+Got: K of Spades
+Busted!
+Dealer: ['3 of Hearts', '8 of Hearts']
+Dealer hits: J of Diamonds
+Dealer score: 21
+Player: 25
+Player: bust - lose
+Bot 1: 17
+Bot 1: lose
+Bot 2: 20
+Bot 2: lose
+Player loses 800 chips (bust)
+Bot 1 loses 99 chips (lower score)
+Bot 2 loses 99 chips (lower score)
+
+Chip counts:
+Player: 100
+Bot 1: 891
+Bot 2: 891
+
+Continue to next round? (y/n): y
+
+Round 4
+Placing bets:
+Player bet (chips: 100): 100
+Bot 1 bets 89
+Bot 2 bets 89
+Dealer shows: A of Hearts
+Player - insurance? (y/n): y
+Player: ['6 of Spades', '10 of Clubs'] (Score: 16)
+Action (hit/stand/surrender): hit
+Got: 5 of Spades
+Player: ['6 of Spades', '10 of Clubs', '5 of Spades'] (Score: 21)
+Action (hit/stand): stand
+Dealer: ['A of Hearts', '8 of Spades']
+Dealer score: 19
+Player: 21
+Player: win
+Bot 1: 19
+Bot 1: push
+Bot 2: 12
+Bot 2: lose
+Player wins 100 chips (higher score)
+Bot 1 pushes (same score)
+Bot 2 loses 89 chips (lower score)
+
+Chip counts:
+Player: 200
+Bot 1: 891
+Bot 2: 802
+
+Continue to next round? (y/n): y
+
+Round 5
+Placing bets:
+Player bet (chips: 200): 100
+Bot 1 bets 89
+Bot 2 bets 80
+Dealer shows: 7 of Hearts
+Player: ['9 of Diamonds', '7 of Spades'] (Score: 16)
+Action (hit/stand/double/surrender): hit
+Got: 4 of Diamonds
+Player: ['9 of Diamonds', '7 of Spades', '4 of Diamonds'] (Score: 20)
+Action (hit/stand): stand
+Dealer: ['7 of Hearts', '10 of Spades']
+Dealer score: 17
+Player: 20
+Player: win
+Bot 1: 23
+Bot 1: bust - lose
+Bot 2: 12
+Bot 2: lose
+Player wins 100 chips (higher score)
+Bot 1 loses 89 chips (bust)
+Bot 2 loses 80 chips (lower score)
+
+Chip counts:
+Player: 300
+Bot 1: 802
+Bot 2: 722
+Shuffling new deck...
+
+Final winner: Bot 1 with 802 chips
