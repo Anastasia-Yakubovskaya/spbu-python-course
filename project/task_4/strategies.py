@@ -1,11 +1,19 @@
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 import random
-from enums import Rank
+
+try:
+    from .enums import Rank
+except ImportError:
+    from enums import Rank
 
 if TYPE_CHECKING:
-    from players import PlayerBase
-    from core import Deck
+    try:
+        from .players import PlayerBase
+        from .core import Deck
+    except ImportError:
+        from players import PlayerBase
+        from core import Deck
 
 
 class Strategy(ABC):

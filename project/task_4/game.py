@@ -1,7 +1,13 @@
 from typing import List
-from core import Deck, Hand, Card
-from players import PlayerBase, Player, Bot
-from enums import Rank, StrategyType
+
+try:
+    from .core import Deck, Hand, Card
+    from .players import PlayerBase, Player, Bot
+    from .enums import Rank, StrategyType
+except ImportError:
+    from core import Deck, Hand, Card
+    from players import PlayerBase, Player, Bot
+    from enums import Rank, StrategyType
 
 
 class Game:
