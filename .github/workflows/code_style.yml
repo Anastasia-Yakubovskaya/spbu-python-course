@@ -64,4 +64,4 @@ jobs:
 
       - name: Run mypy
         run: |
-          PYTHONPATH=project/task_4 mypy project/task_4/
+          cd project/task_4 && mypy .
