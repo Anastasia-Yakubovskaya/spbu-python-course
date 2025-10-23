@@ -64,7 +64,4 @@ jobs:
 
       - name: Run mypy
         run: |
-          touch project/__init__.py
-          touch project/task_4/__init__.py
-
-          python -m mypy project.task_4
+          PYTHONPATH=project/task_4 mypy project/task_4/
