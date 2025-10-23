@@ -64,4 +64,4 @@ jobs:
 
       - name: Run mypy
         run: |
-          cd project/task_4 && mypy .
+          mypy project/task_4/*.py
