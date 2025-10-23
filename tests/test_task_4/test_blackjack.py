@@ -3,12 +3,12 @@ from unittest.mock import patch, Mock
 import sys
 import os
 
-current_dir = os.path.dirname(__file__)
-project_path = os.path.join(current_dir, "..", "..", "project", "task_4")
-sys.path.insert(0, os.path.abspath(project_path))
+sys.path.append(
+    os.path.join(os.path.dirname(__file__), "..", "..", "project", "task_4")
+)
 
 from core import Card, Deck, Hand
-from players import PlayerBase, Bot, Player
+from players import PlayerBase, Player, Bot
 from game import Game
 from enums import Suit, Rank, StrategyType
 

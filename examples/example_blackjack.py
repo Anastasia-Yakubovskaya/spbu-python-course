@@ -1,10 +1,11 @@
 import os
 import sys
 
-current_dir = os.path.dirname(__file__)
-project_path = os.path.join(current_dir, "..", "project", "task_4")
-sys.path.insert(0, os.path.abspath(project_path))
 
+# Добавляем путь к task_4
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "project", "task_4"))
+
+# Используем прямые импорты
 from core import Card, Deck, Hand
 from players import Player, Bot
 from game import Game
