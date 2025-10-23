@@ -7,7 +7,10 @@ current_dir = os.path.dirname(__file__)
 project_path = os.path.join(current_dir, "..", "..", "project", "task_4")
 sys.path.insert(0, os.path.abspath(project_path))
 
-from blackjack import Card, Deck, Hand, PlayerBase, Bot, Player, Game
+from core import Card, Deck, Hand
+from players import PlayerBase, Bot, Player
+from game import Game
+from enums import Suit, Rank, StrategyType
 
 
 class TestCard:
@@ -23,30 +26,37 @@ class TestCard:
 
     def test_card_creation(self):
         """Test that cards are created with correct suit and rank attributes."""
-        card = Card("Hearts", "A")
-        assert card.suit == "Hearts"
-        assert card.rank == "A"
+        card = Card(Suit.HEARTS, Rank.ACE)
+        assert card.suit == Suit.HEARTS
+        assert card.rank == Rank.ACE
 
     def test_card_string_representation(self):
         """Test the string representation of cards."""
-        card = Card("Diamonds", "K")
+        card = Card(Suit.DIAMONDS, Rank.KING)
         assert str(card) == "K of Diamonds"
 
     def test_card_values(self):
         """Test value calculation for all card ranks including face cards and aces."""
-        test_cases = [("2", 2), ("10", 10), ("J", 10), ("Q", 10), ("K", 10), ("A", 11)]
+        test_cases = [
+            (Rank.TWO, 2),
+            (Rank.TEN, 10),
+            (Rank.JACK, 10),
+            (Rank.QUEEN, 10),
+            (Rank.KING, 10),
+            (Rank.ACE, 11),
+        ]
         for rank, expected_value in test_cases:
-            card = Card("Hearts", rank)
+            card = Card(Suit.HEARTS, rank)
             assert card.get_value() == expected_value
 
     def test_card_same_rank(self):
         """Test rank comparison between different cards."""
-        card_k = Card("Hearts", "K")
-        card_q = Card("Diamonds", "Q")
-        card_a = Card("Clubs", "A")
-        card_2 = Card("Spades", "2")
+        card_k = Card(Suit.HEARTS, Rank.KING)
+        card_q = Card(Suit.DIAMONDS, Rank.QUEEN)
+        card_a = Card(Suit.CLUBS, Rank.ACE)
+        card_2 = Card(Suit.SPADES, Rank.TWO)
 
-        assert card_k.is_same_rank(card_q) == True
+        assert card_k.is_same_rank(card_q) == False
         assert card_k.is_same_rank(card_a) == False
         assert card_a.is_same_rank(card_2) == False
 
@@ -107,7 +117,7 @@ class TestHand:
     def test_hand_add_card(self):
         """Test adding cards to hand increases card count."""
         hand = Hand()
-        card = Card("Hearts", "A")
+        card = Card(Suit.HEARTS, Rank.ACE)
         hand.add_card(card)
         assert len(hand.cards) == 1
         assert hand.cards[0] == card
@@ -115,57 +125,57 @@ class TestHand:
     def test_hand_blackjack_detection(self):
         """Test blackjack detection with ace and face card."""
         hand = Hand()
-        hand.add_card(Card("Hearts", "A"))
-        hand.add_card(Card("Diamonds", "K"))
+        hand.add_card(Card(Suit.HEARTS, Rank.ACE))
+        hand.add_card(Card(Suit.DIAMONDS, Rank.KING))
         assert hand.is_blackjack() == True
         assert hand.get_score() == 21
 
     def test_hand_bust_detection(self):
         """Test bust detection when hand exceeds 21."""
         hand = Hand()
-        hand.add_card(Card("Hearts", "K"))
-        hand.add_card(Card("Diamonds", "Q"))
-        hand.add_card(Card("Clubs", "2"))
+        hand.add_card(Card(Suit.HEARTS, Rank.KING))
+        hand.add_card(Card(Suit.DIAMONDS, Rank.QUEEN))
+        hand.add_card(Card(Suit.CLUBS, Rank.TWO))
         assert hand.is_busted() == True
         assert hand.get_score() > 21
 
     def test_hand_ace_adjustment(self):
         """Test ace value adjustment from 11 to 1 when beneficial."""
         hand = Hand()
-        hand.add_card(Card("Hearts", "A"))
-        hand.add_card(Card("Diamonds", "A"))
-        hand.add_card(Card("Clubs", "9"))
+        hand.add_card(Card(Suit.HEARTS, Rank.ACE))
+        hand.add_card(Card(Suit.DIAMONDS, Rank.ACE))
+        hand.add_card(Card(Suit.CLUBS, Rank.NINE))
         assert hand.get_score() == 21
 
     def test_hand_split_detection(self):
         """Test split eligibility with matching and non-matching ranks."""
         hand = Hand()
-        hand.add_card(Card("Hearts", "8"))
-        hand.add_card(Card("Diamonds", "8"))
+        hand.add_card(Card(Suit.HEARTS, Rank.EIGHT))
+        hand.add_card(Card(Suit.DIAMONDS, Rank.EIGHT))
         assert hand.can_split() == True
 
         hand.clear()
-        hand.add_card(Card("Hearts", "8"))
-        hand.add_card(Card("Diamonds", "9"))
+        hand.add_card(Card(Suit.HEARTS, Rank.EIGHT))
+        hand.add_card(Card(Suit.DIAMONDS, Rank.NINE))
         assert hand.can_split() == False
 
     def test_hand_five_card_charlie(self):
         """Test five-card Charlie detection with exactly 5 cards under 21."""
         hand = Hand()
-        for rank in ["2", "3", "4", "5", "6"]:
-            hand.add_card(Card("Hearts", rank))
+        for rank in [Rank.TWO, Rank.THREE, Rank.FOUR, Rank.FIVE, Rank.SIX]:
+            hand.add_card(Card(Suit.HEARTS, rank))
         assert hand.is_five_card_charlie() == True
 
         hand.clear()
-        for rank in ["2", "3", "4", "5", "K"]:
-            hand.add_card(Card("Hearts", rank))
+        for rank in [Rank.TWO, Rank.THREE, Rank.FOUR, Rank.FIVE, Rank.KING]:
+            hand.add_card(Card(Suit.HEARTS, rank))
         assert hand.is_five_card_charlie() == False
 
     def test_hand_clear(self):
         """Test hand clearing resets cards and score."""
         hand = Hand()
-        hand.add_card(Card("Hearts", "A"))
-        hand.add_card(Card("Diamonds", "K"))
+        hand.add_card(Card(Suit.HEARTS, Rank.ACE))
+        hand.add_card(Card(Suit.DIAMONDS, Rank.KING))
         hand.clear()
         assert hand.cards == []
         assert hand.get_score() == 0
@@ -200,41 +210,44 @@ class TestPlayerBase:
         """Test bet placement deducts from chips and sets bet amount."""
         assert player.place_bet(100) == True
         assert player.bet == 100
-        assert player.chips == 1000
+        assert player.chips == 900
 
     def test_player_insurance(self, player):
         """Test insurance bet placement at half the original bet."""
         player.place_bet(100)
         assert player.place_insurance() == True
         assert player.insurance_bet == 50
+        assert player.chips == 850
 
     def test_player_double_down(self, player):
         """Test double down doubles the bet and marks player as doubled."""
         player.place_bet(100)
-        player.hand.add_card(Card("Hearts", "6"))
-        player.hand.add_card(Card("Diamonds", "5"))
+        player.hand.add_card(Card(Suit.HEARTS, Rank.SIX))
+        player.hand.add_card(Card(Suit.DIAMONDS, Rank.FIVE))
 
         assert player.can_double() == True
         assert player.double_bet() == True
         assert player.bet == 200
         assert player.has_doubled == True
+        assert player.chips == 800
 
     def test_player_split(self, player):
         """Test hand splitting creates two hands with equal bets."""
         player.place_bet(100)
-        player.hand.add_card(Card("Hearts", "8"))
-        player.hand.add_card(Card("Diamonds", "8"))
+        player.hand.add_card(Card(Suit.HEARTS, Rank.EIGHT))
+        player.hand.add_card(Card(Suit.DIAMONDS, Rank.EIGHT))
 
         assert player.can_split() == True
         assert player.split_hand() == True
         assert len(player.split_hands) == 2
         assert player.split_bets == [100, 100]
+        assert player.chips == 800
 
     def test_player_surrender(self, player):
         """Test surrender marks player as surrendered."""
         player.place_bet(100)
-        player.hand.add_card(Card("Hearts", "8"))
-        player.hand.add_card(Card("Diamonds", "9"))
+        player.hand.add_card(Card(Suit.HEARTS, Rank.EIGHT))
+        player.hand.add_card(Card(Suit.DIAMONDS, Rank.NINE))
 
         assert player.surrender() == True
         assert player.has_surrendered == True
@@ -243,10 +256,10 @@ class TestPlayerBase:
         """Test hand clearing resets all hand-related state."""
         player.place_bet(100)
         player.place_insurance()
-        player.hand.add_card(Card("Hearts", "A"))
+        player.hand.add_card(Card(Suit.HEARTS, Rank.ACE))
 
-        with patch.object(player, "split_hand", return_value=True):
-            player.split_hand()
+        player.split_hands = [Hand(), Hand()]
+        player.split_bets = [100, 100]
 
         player.clear_hand()
         assert player.hand.cards == []
@@ -260,46 +273,48 @@ class TestBot:
 
     Test cases:
     - Bot initialization with strategy
-    - Optional strategy hitting until 17+
-    - Cowardly strategy hitting until 12+
+    - Safe strategy hitting until 14+
+    - Risk taker strategy hitting until 19+
     """
 
     @pytest.fixture
     def bot(self):
-        return Bot("TestBot", "optional")
+        return Bot("TestBot", StrategyType.SAFE)
 
     def test_bot_initialization(self, bot):
         """Test bot initialization with name and strategy."""
         assert bot.name == "TestBot"
-        assert bot.strategy == "optional"
+        assert bot.strategy == StrategyType.SAFE
 
-    def test_bot_optional_strategy(self, bot):
-        """Test optional strategy hits until score reaches 17 or higher."""
+    def test_bot_play_safe_strategy(self, bot):
+        """Test safe strategy hits until score reaches 14 or higher."""
         mock_deck = Mock()
-        cards = [Card("Hearts", "2"), Card("Diamonds", "3"), Card("Clubs", "K")]
+        cards = [Card(Suit.HEARTS, Rank.TWO), Card(Suit.DIAMONDS, Rank.THREE)]
         mock_deck.deal_card.side_effect = cards
 
-        bot.hand.add_card(Card("Spades", "10"))
+        bot.hand.add_card(Card(Suit.SPADES, Rank.TEN))
 
         with patch("builtins.print"):
-            bot.optional_strategy(mock_deck)
+            bot.play(mock_deck)
 
-        assert bot.hand.get_score() >= 17
+        assert bot.hand.get_score() >= 14
         assert mock_deck.deal_card.call_count > 0
 
-    def test_bot_cowardly_strategy(self, bot):
-        """Test cowardly strategy hits until score reaches 12 or higher."""
-        bot.strategy = "cowardly"
+    def test_bot_play_risk_taker_strategy(self):
+        """Test risk taker strategy hits until score reaches 19 or higher."""
+        bot = Bot("RiskBot", StrategyType.RISK_TAKER)
         mock_deck = Mock()
-        cards = [Card("Hearts", "2"), Card("Diamonds", "3")]
+        cards = [Card(Suit.HEARTS, Rank.TWO)]
         mock_deck.deal_card.side_effect = cards
 
-        bot.hand.add_card(Card("Spades", "8"))
+        bot.hand.add_card(Card(Suit.SPADES, Rank.TEN))
+        bot.hand.add_card(Card(Suit.SPADES, Rank.EIGHT))
 
         with patch("builtins.print"):
-            bot.cowardly_strategy(mock_deck)
+            bot.play(mock_deck)
 
-        assert bot.hand.get_score() >= 12
+        assert bot.hand.get_score() >= 19
+        assert mock_deck.deal_card.call_count > 0
 
 
 class TestPlayer:
@@ -318,10 +333,10 @@ class TestPlayer:
     def test_player_take_turn_stand(self, player):
         """Test stand action doesn't draw additional cards."""
         mock_deck = Mock()
-        dealer_card = Card("Hearts", "7")
+        dealer_card = Card(Suit.HEARTS, Rank.SEVEN)
 
-        player.hand.add_card(Card("Diamonds", "10"))
-        player.hand.add_card(Card("Clubs", "8"))
+        player.hand.add_card(Card(Suit.DIAMONDS, Rank.TEN))
+        player.hand.add_card(Card(Suit.CLUBS, Rank.EIGHT))
 
         with patch("builtins.input", return_value="stand"), patch("builtins.print"):
             player.take_turn(mock_deck, dealer_card)
@@ -332,11 +347,11 @@ class TestPlayer:
     def test_player_take_turn_hit(self, player):
         """Test hit action draws one additional card then stands."""
         mock_deck = Mock()
-        mock_deck.deal_card.return_value = Card("Hearts", "2")
-        dealer_card = Card("Hearts", "7")
+        mock_deck.deal_card.return_value = Card(Suit.HEARTS, Rank.TWO)
+        dealer_card = Card(Suit.HEARTS, Rank.SEVEN)
 
-        player.hand.add_card(Card("Diamonds", "10"))
-        player.hand.add_card(Card("Clubs", "5"))
+        player.hand.add_card(Card(Suit.DIAMONDS, Rank.TEN))
+        player.hand.add_card(Card(Suit.CLUBS, Rank.FIVE))
 
         with patch("builtins.input", side_effect=["hit", "stand"]), patch(
             "builtins.print"
@@ -370,7 +385,7 @@ class TestGame:
 
     def test_game_initialization(self, game):
         """Test game initialization with correct player counts and round settings."""
-        assert len(game.bots) == 2
+        assert len(game.bots) == 3
         assert len(game.players) == 1
         assert game.current_round == 0
         assert game.max_rounds == 2
@@ -410,11 +425,11 @@ class TestGame:
 
     def test_insurance_offered(self, game):
         """Test insurance is offered when dealer shows ace."""
-        game.dealer.hand.add_card(Card("Hearts", "A"))
+        game.dealer.hand.add_card(Card(Suit.HEARTS, Rank.ACE))
 
         with patch("builtins.input", return_value="n"), patch("builtins.print"):
             dealer_card = game.dealer.hand.cards[0]
-            if dealer_card.rank == "A":
+            if dealer_card.rank == Rank.ACE:
                 for player in game.players:
                     insurance = "n"
 
@@ -425,13 +440,13 @@ class TestGame:
         player = game.players[0]
         player.place_bet(100)
 
-        player.hand.add_card(Card("Hearts", "A"))
-        player.hand.add_card(Card("Diamonds", "K"))
+        player.hand.add_card(Card(Suit.HEARTS, Rank.ACE))
+        player.hand.add_card(Card(Suit.DIAMONDS, Rank.KING))
 
-        game.dealer.hand.add_card(Card("Clubs", "10"))
-        game.dealer.hand.add_card(Card("Spades", "7"))
+        game.dealer.hand.add_card(Card(Suit.CLUBS, Rank.TEN))
+        game.dealer.hand.add_card(Card(Suit.SPADES, Rank.SEVEN))
 
         with patch("builtins.print"):
             game._process_payout(player, player.hand, 17, False, 100)
 
-        assert player.chips == 1000 + 150
+        assert player.chips == 1150

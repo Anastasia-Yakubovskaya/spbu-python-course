@@ -4,149 +4,121 @@ Game will run for 5 rounds
 Round 1
 Placing bets:
 Player bet (chips: 1000): 500
-Bot 1 bets 100
-Bot 2 bets 100
-Dealer shows: J of Spades
-Player: ['Q of Diamonds', '3 of Spades'] (Score: 13)
-Action (hit/stand/double/surrender): hit
-Got: 4 of Clubs
-Player: ['Q of Diamonds', '3 of Spades', '4 of Clubs'] (Score: 17)
+Safe Bot bets 100
+Risk Taker Bot bets 100
+Unpredictable Bot bets 100
+Dealer shows: 6 of Spades
+Player: ['A of Hearts', 'A of Clubs'] (Score: 12)
+Action (hit/stand/surrender): hit
+Got: Q of Spades
+Player: ['A of Hearts', 'A of Clubs', 'Q of Spades'] (Score: 12)
+Action (hit/stand):
+hit
+Player: ['A of Hearts', 'A of Clubs', 'Q of Spades'] (Score: 12)
+Action (hit/stand): Got: 7 of Clubs
+Player: ['A of Hearts', 'A of Clubs', 'Q of Spades', '7 of Clubs'] (Score: 19)
 Action (hit/stand): stand
-Dealer: ['J of Spades', 'K of Clubs']
-Dealer score: 20
-Player: 17
-Player: lose
-Bot 1: 18
-Bot 1: lose
-Bot 2: 13
-Bot 2: lose
-Player loses 500 chips (lower score)
-Bot 1 loses 100 chips (lower score)
-Bot 2 loses 100 chips (lower score)
+Safe Bot (safe): Bot with safe strategy
+Safe Bot: ['3 of Clubs', 'A of Diamonds'] (Score: 14)
+Risk Taker Bot (risk_taker): Bot with risk_taker strategy
+Risk Taker Bot: ['Q of Diamonds', '4 of Diamonds', '7 of Diamonds'] (Score: 21)
+Unpredictable Bot (unpredictable): Bot with unpredictable strategy
+Unpredictable Bot: ['7 of Spades', 'K of Diamonds'] (Score: 17)
+Dealer: ['6 of Spades', '10 of Clubs']
+Dealer hits: 2 of Clubs
+Dealer score: 18
+Player: 19
+Player: win
+Safe Bot: 14
+Safe Bot: lose
+Risk Taker Bot: 21
+Risk Taker Bot: win
+Unpredictable Bot: 17
+Unpredictable Bot: lose
 
 Chip counts:
-Player: 500
-Bot 1: 900
-Bot 2: 900
+Player: 1500
+Safe Bot: 900
+Risk Taker Bot: 1100
+Unpredictable Bot: 900
 
 Continue to next round? (y/n): y
 
 Round 2
 Placing bets:
-Player bet (chips: 500): 400
-Bot 1 bets 90
-Bot 2 bets 90
+Player bet (chips: 1500): 1000
+Safe Bot bets 90
+Risk Taker Bot bets 100
+Unpredictable Bot bets 90
 Dealer shows: 5 of Clubs
-Player: ['A of Spades', '9 of Hearts'] (Score: 20)
-Action (hit/stand/surrender): stand
-Dealer: ['5 of Clubs', 'J of Hearts']
-Dealer hits: Q of Hearts
-Dealer score: 25
-Player: 20
-Player: win - dealer bust
-Bot 1: 17
-Bot 1: win - dealer bust
-Bot 2: 14
-Bot 2: win - dealer bust
-Player wins 400 chips (dealer bust)
-Bot 1 wins 90 chips (dealer bust)
-Bot 2 wins 90 chips (dealer bust)
+Player: ['8 of Diamonds', '7 of Hearts'] (Score: 15)
+Action (hit/stand/surrender): hit
+Got: 8 of Spades
+Busted!
+Safe Bot (safe): Bot with safe strategy
+Safe Bot: ['10 of Hearts', '5 of Spades'] (Score: 15)
+Risk Taker Bot (risk_taker): Bot with risk_taker strategy
+Risk Taker Bot: ['3 of Diamonds', '4 of Clubs', '9 of Diamonds', '8 of Hearts'] (Score: 24)
+Unpredictable Bot (unpredictable): Bot with unpredictable strategy
+Unpredictable Bot: ['K of Clubs', 'Q of Hearts', '4 of Hearts'] (Score: 24)
+Dealer: ['5 of Clubs', '8 of Clubs']
+Dealer hits: 9 of Spades
+Dealer score: 22
+Player: 23
+Player: bust - lose
+Safe Bot: 15
+Safe Bot: win - dealer bust
+Risk Taker Bot: 24
+Risk Taker Bot: bust - lose
+Unpredictable Bot: 24
+Unpredictable Bot: bust - lose
 
 Chip counts:
-Player: 900
-Bot 1: 990
-Bot 2: 990
+Player: 500
+Safe Bot: 990
+Risk Taker Bot: 1000
+Unpredictable Bot: 810
 
 Continue to next round? (y/n): y
 
 Round 3
 Placing bets:
-Player bet (chips: 900): 800
-Bot 1 bets 99
-Bot 2 bets 99
-Dealer shows: 3 of Hearts
-Player: ['10 of Diamonds', '5 of Hearts'] (Score: 15)
+Player bet (chips: 500): 500
+Safe Bot bets 99
+Risk Taker Bot bets 100
+Unpredictable Bot bets 81
+Dealer shows: 6 of Hearts
+Player: ['J of Hearts', '2 of Diamonds'] (Score: 12)
 Action (hit/stand/surrender): hit
-Got: K of Spades
-Busted!
-Dealer: ['3 of Hearts', '8 of Hearts']
-Dealer hits: J of Diamonds
-Dealer score: 21
-Player: 25
-Player: bust - lose
-Bot 1: 17
-Bot 1: lose
-Bot 2: 20
-Bot 2: lose
-Player loses 800 chips (bust)
-Bot 1 loses 99 chips (lower score)
-Bot 2 loses 99 chips (lower score)
-
-Chip counts:
-Player: 100
-Bot 1: 891
-Bot 2: 891
-
-Continue to next round? (y/n): y
-
-Round 4
-Placing bets:
-Player bet (chips: 100): 100
-Bot 1 bets 89
-Bot 2 bets 89
-Dealer shows: A of Hearts
-Player - insurance? (y/n): y
-Player: ['6 of Spades', '10 of Clubs'] (Score: 16)
-Action (hit/stand/surrender): hit
-Got: 5 of Spades
-Player: ['6 of Spades', '10 of Clubs', '5 of Spades'] (Score: 21)
+Got: A of Spades
+Player: ['J of Hearts', '2 of Diamonds', 'A of Spades'] (Score: 13)
+Action (hit/stand): hit
+Got: 4 of Spades
+Player: ['J of Hearts', '2 of Diamonds', 'A of Spades', '4 of Spades'] (Score: 17)
 Action (hit/stand): stand
-Dealer: ['A of Hearts', '8 of Spades']
-Dealer score: 19
-Player: 21
-Player: win
-Bot 1: 19
-Bot 1: push
-Bot 2: 12
-Bot 2: lose
-Player wins 100 chips (higher score)
-Bot 1 pushes (same score)
-Bot 2 loses 89 chips (lower score)
-
-Chip counts:
-Player: 200
-Bot 1: 891
-Bot 2: 802
-
-Continue to next round? (y/n): y
-
-Round 5
-Placing bets:
-Player bet (chips: 200): 100
-Bot 1 bets 89
-Bot 2 bets 80
-Dealer shows: 7 of Hearts
-Player: ['9 of Diamonds', '7 of Spades'] (Score: 16)
-Action (hit/stand/double/surrender): hit
-Got: 4 of Diamonds
-Player: ['9 of Diamonds', '7 of Spades', '4 of Diamonds'] (Score: 20)
-Action (hit/stand): stand
-Dealer: ['7 of Hearts', '10 of Spades']
+Safe Bot (safe): Bot with safe strategy
+Safe Bot: ['3 of Spades', 'J of Clubs', '10 of Diamonds'] (Score: 23)
+Risk Taker Bot (risk_taker): Bot with risk_taker strategy
+Risk Taker Bot: ['10 of Spades', '5 of Diamonds', '5 of Hearts'] (Score: 20)
+Unpredictable Bot (unpredictable): Bot with unpredictable strategy
+Unpredictable Bot: ['J of Diamonds', 'Q of Clubs', '6 of Diamonds'] (Score: 26)
+Dealer: ['6 of Hearts', '9 of Hearts']
+Dealer hits: 2 of Spades
 Dealer score: 17
-Player: 20
-Player: win
-Bot 1: 23
-Bot 1: bust - lose
-Bot 2: 12
-Bot 2: lose
-Player wins 100 chips (higher score)
-Bot 1 loses 89 chips (bust)
-Bot 2 loses 80 chips (lower score)
+Player: 17
+Player: push
+Safe Bot: 23
+Safe Bot: bust - lose
+Risk Taker Bot: 20
+Risk Taker Bot: win
+Unpredictable Bot: 26
+Unpredictable Bot: bust - lose
 
 Chip counts:
-Player: 300
-Bot 1: 802
-Bot 2: 722
+Player: 500
+Safe Bot: 891
+Risk Taker Bot: 1100
+Unpredictable Bot: 729
 Shuffling new deck...
 
-Final winner: Bot 1 with 802 chips
+Final winner: Risk Taker Bot with 1100 chips
