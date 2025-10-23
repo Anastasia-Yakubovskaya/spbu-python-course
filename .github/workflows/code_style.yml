@@ -63,5 +63,4 @@ jobs:
         run: pytest tests/ -v
 
       - name: Run mypy
-        run: |
-          cd project/task_4 && mypy .
+        run:  mypy project/task_4/
