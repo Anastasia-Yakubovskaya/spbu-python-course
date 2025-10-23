@@ -1,10 +1,6 @@
 import random
 from typing import List
-
-try:
-    from .enums import Suit, Rank
-except ImportError:
-    from enums import Suit, Rank
+from enums import Suit, Rank
 
 
 class Card:

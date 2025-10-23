@@ -63,4 +63,8 @@ jobs:
         run: pytest tests/ -v
 
       - name: Run mypy
-        run: mypy project/task_4/
+        run: |
+          touch project/__init__.py
+          touch project/task_4/__init__.py
+
+          python -m mypy project.task_4

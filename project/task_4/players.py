@@ -1,13 +1,7 @@
 from typing import List
-
-try:
-    from .core import Hand, Card, Deck
-    from .enums import StrategyType
-    from .strategies import SafePlayerStrategy, RiskTakerStrategy, UnpredictableStrategy
-except ImportError:
-    from core import Hand, Card, Deck
-    from enums import StrategyType
-    from strategies import SafePlayerStrategy, RiskTakerStrategy, UnpredictableStrategy
+from core import Hand, Card, Deck
+from enums import StrategyType
+from strategies import SafePlayerStrategy, RiskTakerStrategy, UnpredictableStrategy
 
 
 class PlayerBase:
