@@ -1,7 +1,12 @@
 from typing import List
 from core import Hand, Card, Deck
 from enums import StrategyType
-from strategies import SafePlayerStrategy, RiskTakerStrategy, UnpredictableStrategy
+from strategies import (
+    SafePlayerStrategy,
+    RiskTakerStrategy,
+    UnpredictableStrategy,
+    Strategy,
+)
 
 
 class PlayerBase:
