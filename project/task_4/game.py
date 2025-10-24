@@ -61,8 +61,8 @@ class Game:
                     print("Please enter a valid number")
 
         for bot in self.bots:
-            bet = max(10, min(100, bot.chips // 10))
-            if bot.chips < 10:
+            bet = bot.calculate_bet()
+            if bot.chips < 10:  # Minimum bet check
                 bet = bot.chips
             if bot.place_bet(bet):
                 print(f"{bot.name} bets {bet}")

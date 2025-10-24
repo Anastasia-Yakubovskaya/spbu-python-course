@@ -22,12 +22,38 @@ class Strategy(ABC):
         """
         pass
 
+    @abstractmethod
+    def calculate_bet(self, player: "PlayerBase") -> int:
+        """
+        Calculate bet amount based on strategy and player's chips
+
+        Parameters:
+            player (PlayerBase): The player placing the bet
+
+        Returns:
+            int: Bet amount
+        """
+        pass
+
 
 class SafePlayerStrategy(Strategy):
     """
     Safe Player strategy that plays conservatively
     Stands on 14+, rarely doubles down, splits only Aces and 8s
     """
+
+    def calculate_bet(self, player: "PlayerBase") -> int:
+        """
+        Calculate conservative bet amount (5-10% of chips)
+
+        Parameters:
+            player (PlayerBase): The player placing the bet
+
+        Returns:
+            int: Bet amount
+        """
+        base_bet = max(10, player.chips // 20)
+        return min(base_bet, 100)
 
     def play(self, player: "PlayerBase", deck: "Deck") -> None:
         """
@@ -70,6 +96,20 @@ class RiskTakerStrategy(Strategy):
     Risk Taker strategy that plays aggressively
     Hits until 19, often doubles down, loves splitting pairs
     """
+
+    def calculate_bet(self, player: "PlayerBase") -> int:
+        """
+        Calculate aggressive bet amount (15-25% of chips)
+
+        Parameters:
+            player (PlayerBase): The player placing the bet
+
+        Returns:
+            int: Bet amount
+        """
+        base_bet = max(20, player.chips // 6)
+        variation = random.randint(-10, 20)
+        return min(base_bet + variation, 200)
 
     def play(self, player: "PlayerBase", deck: "Deck") -> None:
         """
@@ -116,6 +156,21 @@ class UnpredictableStrategy(Strategy):
     Unpredictable strategy that mixes random and strategic decisions
     Sometimes stands early, sometimes hits hard, makes surprising moves
     """
+
+    def calculate_bet(self, player: "PlayerBase") -> int:
+        """
+        Calculate unpredictable bet amount (random between 5-20% of chips)
+
+        Parameters:
+            player (PlayerBase): The player placing the bet
+
+        Returns:
+            int: Bet amount
+        """
+        percentage = random.uniform(0.05, 0.20)
+        base_bet = max(10, int(player.chips * percentage))
+        variation = random.randint(-15, 30)
+        return min(base_bet + variation, 150)
 
     def play(self, player: "PlayerBase", deck: "Deck") -> None:
         """

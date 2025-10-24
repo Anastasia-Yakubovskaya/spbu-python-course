@@ -197,6 +197,15 @@ class Bot(PlayerBase):
         else:
             return SafePlayerStrategy()
 
+    def calculate_bet(self) -> int:
+        """
+        Calculate bet amount based on bot's strategy
+
+        Returns:
+            int: Bet amount
+        """
+        return self._strategy_obj.calculate_bet(self)
+
     def play(self, deck: Deck) -> None:
         """
         Execute bot's playing strategy
@@ -213,6 +222,7 @@ class Bot(PlayerBase):
             print("Bot with unpredictable strategy")
 
         self._strategy_obj.play(self, deck)
+
         if self.split_hands:
             for i, hand in enumerate(self.split_hands):
                 split_text = f" (split {i + 1})" if len(self.split_hands) > 1 else ""
