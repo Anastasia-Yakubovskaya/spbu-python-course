@@ -1,6 +1,6 @@
 import random
 from typing import List
-from enums import Suit, Rank
+from project.task_4.enums import Suit, Rank
 
 
 class Card:

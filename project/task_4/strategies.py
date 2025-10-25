@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 import random
-from enums import Rank
+
+from project.task_4.enums import Rank
 
 if TYPE_CHECKING:
-    from players import PlayerBase
-    from core import Deck
+    from project.task_4.players import PlayerBase
+    from project.task_4.core import Deck
 
 
 class Strategy(ABC):

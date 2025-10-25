@@ -1,7 +1,7 @@
 from typing import List
-from core import Hand, Card, Deck
-from enums import StrategyType
-from strategies import (
+from project.task_4.core import Hand, Card, Deck
+from project.task_4.enums import StrategyType
+from project.task_4.strategies import (
     SafePlayerStrategy,
     RiskTakerStrategy,
     UnpredictableStrategy,

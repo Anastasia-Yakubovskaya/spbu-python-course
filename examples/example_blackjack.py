@@ -1,12 +1,12 @@
 import os
 import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "project", "task_4"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from core import Card, Deck, Hand
-from players import Player, Bot
-from game import Game
-from enums import StrategyType
+from project.task_4.core import Card, Deck, Hand
+from project.task_4.players import Player, Bot
+from project.task_4.game import Game
+from project.task_4.enums import StrategyType
 
 if __name__ == "__main__":
     """

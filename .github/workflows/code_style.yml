@@ -60,8 +60,11 @@ jobs:
 
 
       - name: Run pytest
-        run: pytest tests/ -v
+        run: |
+          export PYTHONPATH=$GITHUB_WORKSPACE:$PYTHONPATH
+          pytest tests/ -v
 
       - name: Run mypy
         run: |
-          cd project/task_4 && mypy .
+          export PYTHONPATH=$GITHUB_WORKSPACE:$PYTHONPATH
+          mypy project/

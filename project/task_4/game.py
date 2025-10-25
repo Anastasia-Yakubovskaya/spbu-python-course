@@ -1,7 +1,7 @@
 from typing import List
-from core import Deck, Hand, Card
-from players import PlayerBase, Player, Bot
-from enums import Rank, StrategyType
+from project.task_4.core import Deck, Hand, Card
+from project.task_4.players import PlayerBase, Player, Bot
+from project.task_4.enums import Rank, StrategyType
 
 
 class Game:
