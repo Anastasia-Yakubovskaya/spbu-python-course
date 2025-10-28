@@ -1,5 +1,5 @@
 from collections.abc import MutableMapping
-from typing import List, Any, Optional, Iterator
+from typing import Any, Optional, Iterator, Tuple, List
 
 
 class HashTable(MutableMapping):
@@ -11,7 +11,7 @@ class HashTable(MutableMapping):
 
     Attributes:
         _size (int): Current size of the internal hash table
-        _table (List[Optional[tuple[Any, Any]]]): Internal storage array
+        _table (List[Optional[Tuple[Any, Any]]]): Internal storage array
         _count (int): Number of key-value pairs currently stored
     """
 
@@ -23,7 +23,7 @@ class HashTable(MutableMapping):
             initial_size (int): Initial size of the hash table. Defaults to 13.
         """
         self._size = initial_size
-        self._table: List[Optional[tuple[Any, Any]]] = [None] * self._size
+        self._table: List[Optional[Tuple[Any, Any]]] = [None] * self._size
         self._count = 0
 
     def _hash1(self, key: Any) -> int:
@@ -75,11 +75,12 @@ class HashTable(MutableMapping):
             value (Any): Value to associate with the key
         """
         for index in self._probe_sequence(key):
-            if self._table[index] is None:
+            item = self._table[index]
+            if item is None:
                 self._table[index] = (key, value)
                 self._count += 1
                 return
-            elif self._table[index][0] == key:
+            elif item[0] == key:
                 self._table[index] = (key, value)
                 return
         self._rehash()
@@ -96,8 +97,9 @@ class HashTable(MutableMapping):
             Optional[Any]: Value associated with the key, or None if not found
         """
         for index in self._probe_sequence(key):
-            if self._table[index] is not None and self._table[index][0] == key:
-                return self._table[index][1]
+            item = self._table[index]
+            if item is not None and item[0] == key:
+                return item[1]
         return None
 
     def _remove(self, key: Any) -> bool:
@@ -111,7 +113,8 @@ class HashTable(MutableMapping):
             bool: True if key was found and removed, False otherwise
         """
         for index in self._probe_sequence(key):
-            if self._table[index] is not None and self._table[index][0] == key:
+            item = self._table[index]
+            if item is not None and item[0] == key:
                 self._table[index] = None
                 self._count -= 1
                 return True
