@@ -210,6 +210,7 @@ class HashTable(MutableMapping):
         """
         return self._count
 
+    # Добавленные публичные методы для тестов
     def add(self, key: Any, value: Any) -> None:
         """
         Explicit method to add a key-value pair.
@@ -242,3 +243,4 @@ class HashTable(MutableMapping):
         Returns:
             bool: True if key was found and removed, False otherwise
         """
+        return self._remove(key)
